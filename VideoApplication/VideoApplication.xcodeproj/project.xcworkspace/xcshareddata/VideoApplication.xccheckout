@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C797708A-16F1-4758-94EB-84B23F62DBAC</string>
+	<key>IDESourceControlProjectName</key>
+	<string>VideoApplication</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>494F22A7030CB760A4B22404C7A115B99C99D899</key>
+		<string>https://github.com/gaoyangclub/VideoApplicationDevelop.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>VideoApplication/VideoApplication.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>494F22A7030CB760A4B22404C7A115B99C99D899</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/gaoyangclub/VideoApplicationDevelop.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>494F22A7030CB760A4B22404C7A115B99C99D899</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>494F22A7030CB760A4B22404C7A115B99C99D899</string>
+			<key>IDESourceControlWCCName</key>
+			<string>VideoApplicationDevelop</string>
+		</dict>
+	</array>
+</dict>
+</plist>

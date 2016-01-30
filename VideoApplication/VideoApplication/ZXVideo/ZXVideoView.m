@@ -30,6 +30,20 @@
     [(AVPlayerLayer *)self.layer setVideoGravity:fillMode];
 }
 
+////加载进度
+- (CMTimeRange)getCMTimeRange
+{
+    NSArray *loadedTimeRanges = [[self.player currentItem] loadedTimeRanges];
+    if ([loadedTimeRanges count] > 0) {
+        CMTimeRange timeRange = [[loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
+        return timeRange;
+    }else{
+        CMTimeRange a;
+        return a;
+    }
+}
+
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

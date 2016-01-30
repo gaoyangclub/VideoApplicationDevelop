@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface ZXVideoView : UIView
+@interface ZXVideoView : UIControl
 
 @property (nonatomic,strong) AVPlayer *player;
 
 -(void)setFillMode:(NSString *)fillMode;
+//获取加载进度
+-(CMTimeRange)getCMTimeRange;
 
 @end
