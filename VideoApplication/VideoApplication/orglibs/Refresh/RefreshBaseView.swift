@@ -31,16 +31,17 @@ class RefreshBaseView: UIView {
         }
     }
     
+    private var hasObserver:Bool = false
     func changeScrollview(newSuperview: UIScrollView!) {
-        // 旧的父控件
-        if (_scrollView != nil) {
-            _scrollView!.removeObserver(self, forKeyPath: RefreshContentSize as String, context: nil)
-            _scrollView!.removeObserver(self, forKeyPath: RefreshContentOffset as String, context: nil)
-        }
+        // 旧的父控件移除侦听
+        removeSuperViewObservers()
         // 新的父控件
         if (newSuperview != nil) {
             newSuperview.addObserver(self, forKeyPath: RefreshContentSize as String, options: NSKeyValueObservingOptions.New, context: nil)
             newSuperview.addObserver(self, forKeyPath: RefreshContentOffset as String, options: NSKeyValueObservingOptions.New, context: nil)
+            newSuperview.addObserver(self, forKeyPath: RefreshContentInset as String, options: NSKeyValueObservingOptions.New, context: nil)
+            
+            hasObserver = true
             
             var rect:CGRect = self.frame
             // 设置宽度   位置
@@ -48,9 +49,20 @@ class RefreshBaseView: UIView {
             rect.origin.x = 0
             self.frame = rect;
             //UIScrollView
-            
-            newSuperview.addObserver(self, forKeyPath: "contentInset", options: NSKeyValueObservingOptions.New, context: nil)
         }
+    }
+    
+    private func removeSuperViewObservers(){
+        if (_scrollView != nil && hasObserver) {
+            _scrollView!.removeObserver(self, forKeyPath: RefreshContentSize as String, context: nil)
+            _scrollView!.removeObserver(self, forKeyPath: RefreshContentOffset as String, context: nil)
+            _scrollView!.removeObserver(self, forKeyPath: RefreshContentInset as String, context: nil)
+        }
+    }
+    
+    deinit{
+        removeSuperViewObservers()
+//        print("RefreshBaseView销毁并移除侦听")
     }
     
     // 内部的控件
@@ -164,7 +176,7 @@ class RefreshBaseView: UIView {
         
     }
     //当滚动位置发生改变时触发
-    func adjustStateWithContentOffset(){
+    func adjustStateWithContentOffset(straight:Bool = false){
         
     }
     // 刷新相关
@@ -192,14 +204,14 @@ class RefreshBaseView: UIView {
 //    }
     
     func noDataRefreshing(){
-        self.State = RefreshState.Nodata;
+        self.State = RefreshState.Nodata
     }
     
     //重置回初始化状态
     func reset(){
 //        scrollView.contentInset.bottom = 0;
         self.oldState = RefreshState.Normal
-        self.State = RefreshState.Normal; //状态恢复到默认
+        self.State = RefreshState.Normal //状态恢复到默认
     }
     
     

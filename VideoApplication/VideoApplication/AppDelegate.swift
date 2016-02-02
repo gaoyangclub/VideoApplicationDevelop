@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         itemCtrl1.tabBarItem = barItem1;
         itemCtrl2.tabBarItem = barItem2;
         itemCtrl3.tabBarItem = barItem3;
-
+        
         return tabBarCtl
     }
     

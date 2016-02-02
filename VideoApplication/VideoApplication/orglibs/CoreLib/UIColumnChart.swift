@@ -219,8 +219,8 @@ class UIColumnChart: UIView {
         if chartLabelView == nil{
             chartLabelView = UIView()
             self.addSubview(chartLabelView)
-            chartLabelView.snp_makeConstraints(closure: { (make) -> Void in
-                make.left.right.top.bottom.equalTo(self)
+            chartLabelView.snp_makeConstraints(closure: { [weak self](make) -> Void in
+                make.left.right.top.bottom.equalTo(self!)
             })
         }
         chartLabelView.removeAllSubViews()
@@ -228,8 +228,8 @@ class UIColumnChart: UIView {
             gestrueArea = UIView()
             self.addSubview(gestrueArea)
             gestrueArea.userInteractionEnabled = false
-            gestrueArea.snp_makeConstraints(closure: { (make) -> Void in
-                make.left.right.top.bottom.equalTo(chartLabelView)
+            gestrueArea.snp_makeConstraints(closure: { [weak self](make) -> Void in
+                make.left.right.top.bottom.equalTo(self!.chartLabelView)
             })
         }
         hideGestrueLine()

@@ -41,6 +41,18 @@ class BaseTableViewCell: UITableViewCell {
     
     var needRefresh:Bool = true //默认需要刷新
     
+    var tableView:UITableView?{
+        didSet{
+            setNeedsLayout()
+        }
+    }
+    
+    var cellVo:CellVo?{
+        didSet{
+            setNeedsLayout()
+        }
+    }
+    
     var data:Any?{
         //        set(newValue){
         //            _data = newValue

@@ -231,6 +231,7 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
         
         if menuScrollView.subviews.count == 0 {
             configureUserInterface()
+            moveToPage(0)
         }
     }
     
@@ -838,15 +839,23 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
         
         let newVC = controllerArray[index]
         
-        newVC.view.frame = CGRectMake(self.view.frame.width * CGFloat(index), menuHeight, self.view.frame.width, self.view.frame.height - menuHeight)
-        
 //        println(self.view.frame.height)
         if(addPageDic[index] == nil){
             addPageDic[index] = newVC
             newVC.willMoveToParentViewController(self)
             self.addChildViewController(newVC)
             self.controllerScrollView.addSubview(newVC.view)
+            
+            newVC.view.frame = CGRectMake(self.view.frame.width * CGFloat(index), menuHeight, self.view.frame.width, self.view.frame.height - menuHeight)
             newVC.didMoveToParentViewController(self)
+            
+//            let leftpadding = self.view.frame.width * CGFloat(index)
+//            newVC.view.snp_makeConstraints(closure: { [weak self](make) -> Void in
+//                make.left.equalTo(leftpadding)
+//                make.top.equalTo(self!.menuHeight)
+//                make.width.equalTo(self!.controllerScrollView)
+//                make.height.equalTo(self!.controllerScrollView).offset(-self!.menuHeight)
+//            })
         }
     }
     
@@ -979,6 +988,13 @@ public class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureReco
                 
                 // Add page from which tap is initiated so it can be removed after tap is done
                 pagesAddedDictionary[lastPageIndex] = lastPageIndex
+                
+                // Set selected color for title label of selected menu item
+                if menuItems.count > 0 {
+                    if currentPageIndex >= 0 && menuItems[currentPageIndex].titleLabel != nil {
+                        menuItems[currentPageIndex].titleLabel!.textColor = selectedMenuItemLabelColor
+                    }
+                }
             }
             
             // Move controller scroll view when tapping menu item

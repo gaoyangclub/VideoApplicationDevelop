@@ -27,6 +27,7 @@ class UICreaterUtils: AnyObject {
         uiLabel.font = UIFont.systemFontOfSize(size)//UIFont(name: "Arial Rounded MT Bold", size: size)
         uiLabel.textColor = color
         uiLabel.text = text
+        uiLabel.userInteractionEnabled = false //默认没有交互
         if sizeToFit{
             uiLabel.sizeToFit()
         }

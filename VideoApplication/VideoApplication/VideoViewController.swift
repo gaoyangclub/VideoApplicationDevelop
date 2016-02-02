@@ -153,8 +153,25 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
         self.toolbarHidden(isFullScreen)
     }
     
+    private lazy var volumeView:MPVolumeView = {
+        let view = MPVolumeView()
+        self.view.addSubview(view)
+        for sub in view.subviews{
+            if sub.isKindOfClass(NSClassFromString("MPVolumeSlider")!){
+                self.volumeViewSlider = sub as! UISlider
+            }
+        }
+        return view
+    }()
+    
+    private var volumeViewSlider:UISlider!
+    
     private func initController(){
-//        self.title = "视频播放器"
+        self.title = "视频播放器"
+        
+        volumeView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        volumeView.hidden = false
+        
 //        videoView.frame = CGRectMake(0, 0, self.view.frame.width, 200)
         videoView.snp_makeConstraints { (make) -> Void in
             make.left.right.top.equalTo(self.view)
@@ -270,7 +287,7 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
                 isVertical = abs(dirtX) < abs(dirtY)
             }
             if !isVertical!{ //横向移动
-                var s = Float(dirtX) //添加的秒数
+                var s = Float(dirtX)/5 //添加的秒数
                 //            println("增加的秒数\(s)")
                 if s + mCurPostion < 0 {
                     s = -mCurPostion //最小
@@ -285,7 +302,7 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
                     videoView.centerProgressView.progress = (mCurPostion + s) / mDuration
                 }
             }else{ //纵向移动
-                var s = -Float(dirtY)/100.0 //添加的音量
+                var s = -Float(dirtY)/200.0 //添加的音量
 //                println("增加的音量\(s)")
                 //            println("增加的秒数\(s)")
                 if s + currentVolume < 0 {
@@ -293,7 +310,14 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
                 }else if s + currentVolume > 1 {
                     s = 1 - currentVolume//最大
                 }
-                videoPlayer.volume = currentVolume + s
+                print("音量值\(currentVolume + s)")
+//                videoPlayer.volume = currentVolume + s
+                volumeViewSlider.setValue(currentVolume + s, animated: false)
+                volumeViewSlider.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+                
+//                MPMusicPlayerController.applicationMusicPlayer()
+//                MPMusicPlayerController.applicationMusicPlayer().volume = currentVolume + s
+                // send UI control event to make the change effect right now.
             }
         }
     }
@@ -489,11 +513,11 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
         }else{
             resetBufferTime()
         }
-        videoView.downloadLabel.text = "当前速度:" + getDownloadRateString(Int(downloadRate))
+        videoView.downloadLabel.text = "当前速度:" + getDownloadRateString(downloadRate)
         videoView.downloadLabel.sizeToFit()
     }
     
-    private func getDownloadRateString(downloadRate:Int)->String{
+    private func getDownloadRateString(downloadRate:Float)->String{
         if downloadRate > 1000000 {
             return "\(downloadRate / 1000000)M/s"
         }else if downloadRate > 1000 {
@@ -571,7 +595,7 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
     
     //非操作性视频播放中断(网速卡等)
     func moviePlaybackStalled(notification:NSNotification){
-        print("moviePlaybackStalled")
+//        print("moviePlaybackStalled")
         videoPlayer.play()
         videoView.showLoading()
     }

@@ -11,7 +11,7 @@ import UIKit
 class RefreshHeaderView: RefreshBaseView {
     
     class func header()->RefreshHeaderView{
-        let header:RefreshHeaderView  = RefreshHeaderView()
+        let header:RefreshHeaderView = RefreshHeaderView()
         return header
     }
     
@@ -39,30 +39,34 @@ class RefreshHeaderView: RefreshBaseView {
                 self.statusLabel.text = RefreshHeaderPullToRefresh as String
                 //                println("headerHeight:\(self.frame.size.height)")
                 if RefreshState.Refreshing == oldState {
+                    self.hidden = true
                     scrollView?.userInteractionEnabled = false
                     self.arrowImage!.transform = CGAffineTransformIdentity
                     //                self.lastUpdateTime = NSDate()
                     
 //                    var mainTable:UIView? = self.scrollView?.getWrapperView()//.subviews[0] as! UIView
                     //                    println(mainTable?.frame.origin.y)
-                    UIView.animateWithDuration(RefreshSlowAnimationDuration, animations: {
+                    UIView.animateWithDuration(RefreshSlowAnimationDuration, animations: {[weak self]_ in
                         //self.frame.size.height
                         //                        self.scrollView.contentOffset.y = -self.scrollView.contentInset.top
                         //                        println("top:\(self.scrollView.contentInset.top)")
                         
 //                        self.scrollView?.frame.origin.y = 0
-                        self.scrollView?.contentInset.top = 0
-                        },completion:{ ani in
+                        self?.scrollView?.contentInset.top = 0
+                        },completion:{ [weak self] ani in
                             //                        println("ani:\(ani)");
-                            self.scrollView?.userInteractionEnabled = true
+                            self?.scrollView?.userInteractionEnabled = true
+                            self?.oldState = RefreshState.Normal //恢复成Normal
+                            self?.hidden = true
 //                            println("scrollView交互打开")
                             //                            self.scrollView.contentInset.top = 0
                             //                            self.scrollView.bounces = true
                     })
                 }else {
-                    UIView.animateWithDuration(RefreshSlowAnimationDuration, animations: {
-                        self.arrowImage!.transform = CGAffineTransformIdentity
-                        },completion:{ ani in
+//                    self.hidden = false
+                    UIView.animateWithDuration(RefreshSlowAnimationDuration, animations: {[weak self]_ in
+                        self?.arrowImage!.transform = CGAffineTransformIdentity
+                        },completion:{  ani in //[weak self]
                             //                        println("ani:\(ani)");
 //                                                        self.scrollView?.userInteractionEnabled = true
 //                            println("scrollView交互打开")
@@ -70,9 +74,10 @@ class RefreshHeaderView: RefreshBaseView {
                 }
                 break
             case .Pulling:
+//                self.hidden = false
                 self.statusLabel.text = RefreshHeaderReleaseToRefresh as String
-                UIView.animateWithDuration(RefreshSlowAnimationDuration, animations: {
-                    self.arrowImage!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI ))
+                UIView.animateWithDuration(RefreshSlowAnimationDuration, animations: {[weak self]_ in
+                    self?.arrowImage!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI ))
                 })
                 break
             case .Refreshing:
@@ -97,24 +102,24 @@ class RefreshHeaderView: RefreshBaseView {
                 scrollView.userInteractionEnabled = false
 //                println("scrollView交互关闭")
                 self.hidden = false
-                UIView.animateWithDuration(RefreshSlowAnimationDuration, animations: {
+                UIView.animateWithDuration(RefreshSlowAnimationDuration, animations: {[weak self]_ in
                     //                    self.bounds.origin.y = -self.frame.size.height
                     //                    mainTable?.frame.origin.y = self.frame.size.height
                     //                    println(mainTable?.frame.origin.y)
                     //                    self.scrollView.contentInset.top = 0
 //                    var top:CGFloat = 0.0
                     //                    if self.oldState == .Pulling {
-                    _ = self.frame.size.height// + self.scrollView.contentInset.top
+//                    _ = self.frame.size.height// + self.scrollView.contentInset.top
                     //                    }
                     //                    else{
                     //                        top = self.frame.size.height
                     //                    }
                     //                    self.scrollView.contentInset.top = top
                     //                    self.scrollView.contentOffset.y = -top
-                    if self.scrollView != nil && self.scrollView?.contentInset != nil{
-                        self.scrollView?.contentInset.top = self.frame.size.height
+                    if self?.scrollView != nil && self?.scrollView?.contentInset != nil{
+                        self!.scrollView?.contentInset.top = self!.frame.size.height
                     }
-                    },completion:{ _ in
+                    },completion:{ _ in // [weak self]
                         //                        println("ani:\(ani)");
 //                                                self.scrollView?.userInteractionEnabled = true
                         //                        self.scrollView.contentInset.top = 0
@@ -122,6 +127,7 @@ class RefreshHeaderView: RefreshBaseView {
 //                        if self.scrollView != nil && self.scrollView?.contentInset != nil{
 //                            self.scrollView?.contentInset.top = self.frame.size.height
 //                        }
+//                        self?.hidden = true
                 })
                 break
             default:
@@ -149,19 +155,19 @@ class RefreshHeaderView: RefreshBaseView {
         self.addSubview(arrowImage!)
         arrowImage!.sizeToFit()
         
-        statusLabel.snp_makeConstraints { (make) -> Void in
-            make.centerX.equalTo(self)
-            make.centerY.equalTo(self).offset(RefreshHeaderHeight / 4)
+        statusLabel.snp_makeConstraints { [weak self](make) -> Void in
+            make.centerX.equalTo(self!)
+            make.centerY.equalTo(self!).offset(RefreshHeaderHeight / 4)
         }
         
-        arrowImage!.snp_makeConstraints { (make) -> Void in
-            make.centerX.equalTo(self)
-            make.centerY.equalTo(self).offset(-RefreshHeaderHeight / 4)
+        arrowImage!.snp_makeConstraints { [weak self](make) -> Void in
+            make.centerX.equalTo(self!)
+            make.centerY.equalTo(self!).offset(-RefreshHeaderHeight / 4)
         }
         
-        activityView.snp_makeConstraints { (make) -> Void in
-            make.centerX.equalTo(self.arrowImage!)
-            make.centerY.equalTo(self.arrowImage!)
+        activityView.snp_makeConstraints { [weak self](make) -> Void in
+            make.centerX.equalTo(self!.arrowImage!)
+            make.centerY.equalTo(self!.arrowImage!)
         }
         
         //自己的属性
@@ -195,21 +201,22 @@ class RefreshHeaderView: RefreshBaseView {
     }
     
     //滚动位置变化 调整状态
-    override func adjustStateWithContentOffset()
+    override func adjustStateWithContentOffset(straight:Bool = false)
     {
-        //        if self.oldState == RefreshState.Refreshing{
-        
-        //        }
         let currentOffsetY:CGFloat = self.scrollView.contentOffset.y + self.scrollView.contentInset.top
-        let happenOffsetY:CGFloat = 0;//-self.frame.size.height
+        let happenOffsetY:CGFloat = 0//self.frame.size.height
 //        println("currentOffsetY:\(currentOffsetY)")
         if (currentOffsetY >= happenOffsetY) {
-            self.hidden = true
 //            println("hidden:\(true)")
             return
         }else{
-            self.hidden = false
+//            self.hidden = false
 //            println("hidden:\(false)")
+            if self.scrollView.dragging && (self.oldState == RefreshState.Normal || self.oldState == RefreshState.Pulling) {//刚刷新动画已经隐藏了
+                if self.hidden {
+                    self.hidden = false
+                }
+            }
         }
         if self.scrollView.dragging{
             if  self.State == RefreshState.Normal && currentOffsetY < -self.frame.size.height{

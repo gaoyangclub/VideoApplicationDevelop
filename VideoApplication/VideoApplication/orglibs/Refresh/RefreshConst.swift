@@ -22,5 +22,6 @@ let RefreshFooterNodata:NSString = "暂无更多"
 let RefreshHeaderTimeKey:NSString =  "RefreshHeaderView"
 let RefreshContentOffset:NSString =  "contentOffset"
 let RefreshContentSize:NSString =  "contentSize"
+let RefreshContentInset:NSString =  "contentInset"
 
  

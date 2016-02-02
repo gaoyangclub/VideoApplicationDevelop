@@ -265,9 +265,9 @@ class UIGroupLineChart: UIView,UIGestureRecognizerDelegate {
         if chartLabelView == nil{
             chartLabelView = UIView()
             self.addSubview(chartLabelView)
-            chartLabelView.snp_makeConstraints(closure: { (make) -> Void in
-                make.left.right.top.equalTo(self)
-                make.bottom.equalTo(bottomView.snp_top)
+            chartLabelView.snp_makeConstraints(closure: { [weak self](make) -> Void in
+                make.left.right.top.equalTo(self!)
+                make.bottom.equalTo(self!.bottomView.snp_top)
             })
         }
         chartLabelView.removeAllSubViews()
@@ -275,8 +275,8 @@ class UIGroupLineChart: UIView,UIGestureRecognizerDelegate {
             gestrueArea = UIView()
             self.addSubview(gestrueArea)
             gestrueArea.userInteractionEnabled = false
-            gestrueArea.snp_makeConstraints(closure: { (make) -> Void in
-                make.left.right.top.bottom.equalTo(chartLabelView)
+            gestrueArea.snp_makeConstraints(closure: { [weak self](make) -> Void in
+                make.left.right.top.bottom.equalTo(self!.chartLabelView)
             })
         }
         hideGestrueLine()
@@ -287,9 +287,9 @@ class UIGroupLineChart: UIView,UIGestureRecognizerDelegate {
             bottomView = UIView()
             self.addSubview(bottomView)
         }
-        bottomView.snp_makeConstraints(closure: { (make) -> Void in
-            make.left.right.bottom.equalTo(self)
-            make.height.equalTo(bottomHeight)
+        bottomView.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.left.right.bottom.equalTo(self!)
+            make.height.equalTo(self!.bottomHeight)
         })
         bottomView.removeAllSubViews()
         if titleList == nil || titleList.count == 0{
@@ -312,28 +312,28 @@ class UIGroupLineChart: UIView,UIGestureRecognizerDelegate {
                 firstRect = rect
                 containWidth += rectWidth
             }else{
-                rect.snp_makeConstraints(closure: { (make) -> Void in
+                rect.snp_makeConstraints(closure: { [weak self](make) -> Void in
                     make.left.equalTo(preLabel.snp_right).offset(rectGap)
                     make.width.equalTo(rectWidth)
                     make.height.equalTo(rectHeight)
-                    make.centerY.equalTo(bottomView)
+                    make.centerY.equalTo(self!.bottomView)
                 })
                 containWidth += rectGap + rectWidth
             }
             let label:UILabel = UICreaterUtils.createLabel(12,UICreaterUtils.colorFlat,title,true,bottomView)
-            label.snp_makeConstraints(closure: { (make) -> Void in
+            label.snp_makeConstraints(closure: { [weak self](make) -> Void in
                 make.left.equalTo(rect.snp_right).offset(textGap)
-                make.centerY.equalTo(bottomView)
+                make.centerY.equalTo(self!.bottomView)
             })
             containWidth += label.frame.width + textGap
             preLabel = label
         }
         let firstLeft:CGFloat = (viewWidth - containWidth) / 2
-        firstRect.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(bottomView).offset(firstLeft)
+        firstRect.snp_makeConstraints { [weak self](make) -> Void in
+            make.left.equalTo(self!.bottomView).offset(firstLeft)
             make.width.equalTo(rectWidth)
             make.height.equalTo(rectHeight)
-            make.centerY.equalTo(bottomView)
+            make.centerY.equalTo(self!.bottomView)
         }
     }
     
