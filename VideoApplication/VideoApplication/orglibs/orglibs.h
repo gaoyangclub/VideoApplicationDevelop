@@ -1,10 +1,6 @@
 //
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
-
-#ifndef PullRefreshScrollerTest_BridgeHeader_h
-#define PullRefreshScrollerTest_BridgeHeader_h
-
 #include "MJExtension.h"
 #include "DeviceUtil.h"
 
@@ -22,4 +18,6 @@
 #include "IQKeyboardManager.h"
 #include "IQUIView+IQKeyboardToolbar.h"
 
-#endif
+//#ifndef PullRefreshScrollerTest_BridgeHeader_h
+//#define PullRefreshScrollerTest_BridgeHeader_h
+//#endif

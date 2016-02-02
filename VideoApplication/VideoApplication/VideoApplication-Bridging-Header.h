@@ -8,7 +8,6 @@
 //#include "VMediaPlayer.h"
 #include "orglibs.h"
 #include "ZXVideoView.h"
-#include "MMDrawerController.h"
 
 //#include "PlayerView.h"
 
