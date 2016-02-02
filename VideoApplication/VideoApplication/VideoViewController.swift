@@ -172,6 +172,14 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
         volumeView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         volumeView.hidden = false
         
+        do{
+            try AVAudioSession.sharedInstance().setActive(true)
+        }catch{
+            
+        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "volumeChanged:", name: "AVSystemController_SystemVolumeDidChangeNotification", object: nil)
+        // add event handler, for this example, it is `volumeChange:` method
+        
 //        videoView.frame = CGRectMake(0, 0, self.view.frame.width, 200)
         videoView.snp_makeConstraints { (make) -> Void in
             make.left.right.top.equalTo(self.view)
@@ -198,6 +206,11 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
         videoView.progressSld.addTarget(self, action: "slideTouchBegin", forControlEvents: UIControlEvents.TouchDown)
         videoView.progressSld.addTarget(self, action: "slideTouchEnd", forControlEvents: UIControlEvents.TouchUpInside)
         videoView.progressSld.addTarget(self, action: "slideTouchEnd", forControlEvents: UIControlEvents.TouchUpOutside)
+    }
+    
+    func volumeChanged(notification:NSNotification){
+        //声音变化...
+        print(notification.object)//获取数据
     }
     
     private var panGestrue:UIPanGestureRecognizer!
@@ -639,6 +652,9 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        
+        //将observer全部移除
+        //...
     }
 
 
