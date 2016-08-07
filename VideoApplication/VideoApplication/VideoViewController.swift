@@ -474,15 +474,18 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
                 print("视频状态:\(playerItem.status)")
             }
         }else if keyPath == "loadedTimeRanges"{
-            if nowBufferTime != nil{
-                prevBufferTime = nowBufferTime
-            }
-            nowBufferTime = self.availableDuration()
-//            println("缓冲进度：\(bufferTime)秒 ,总共：\(durationTime)秒 ,百分比：\(progress * 100)%")
-            if nowTime != nil {
-                prevTime = nowTime
-            }
-            nowTime = mach_absolute_time()
+//            if nowBufferTime != nil{
+//                prevBufferTime = nowBufferTime
+//            }
+            let nowBufferTime = self.availableDuration()
+////            println("缓冲进度：\(bufferTime)秒 ,总共：\(durationTime)秒 ,百分比：\(progress * 100)%")
+//            if nowTime != nil {
+//                prevTime = nowTime
+//            }
+//            nowTime = mach_absolute_time()
+            prevBufferTimeArr.append(nowBufferTime)
+            prevTimeArr.append(mach_absolute_time())
+            isBuffering = true
             
             let durationTime = Float(CMTimeGetSeconds(playerItem.duration))
             let progress = nowBufferTime/durationTime
@@ -512,17 +515,27 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
         }
     }
     
+    private let sampleCount:Int = 10
+    
     func bufferTimerMove(){
         var downloadRate:Float = 0
-        if prevTime != nil && prevBufferTime != nil{
+        if prevTimeArr.count > 0 && prevBufferTimeArr.count > 0 && isBuffering{
+            let offset = prevTimeArr.count >= sampleCount ? sampleCount : prevTimeArr.count
+            
+            let nowTime = prevTimeArr[prevTimeArr.count - 1]
+            let prevTime = prevTimeArr[prevTimeArr.count - offset]
+            
+            let nowBufferTime = prevBufferTimeArr[prevTimeArr.count - 1]
+            let prevBufferTime = prevBufferTimeArr[prevTimeArr.count - offset]
+            
             let durationTime = Float(CMTimeGetSeconds(playerItem.duration))
-            let needDelay = Float(nowTime - prevTime!)/1000000000
-            downloadRate = (nowBufferTime - prevBufferTime!) / durationTime * Float(totalFileSize) / needDelay //文件大小
+            let needDelay = Float(nowTime - prevTime)/1000000000
+            downloadRate = (nowBufferTime - prevBufferTime) / durationTime * Float(totalFileSize) / needDelay //文件大小
             
             if downloadRate.isNaN{
                 downloadRate = 0.0
             }
-            prevBufferTime = nil
+            isBuffering = false
         }else{
             resetBufferTime()
         }
@@ -540,18 +553,24 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
     }
     
     private func resetBufferTime(){
-        nowTime = nil
-        prevTime = nil
-        nowBufferTime = nil
-        prevBufferTime = nil
+//        nowTime = nil
+//        prevTime = nil
+//        nowBufferTime = nil
+//        prevBufferTime = nil
+        prevTimeArr.removeAll()
+        prevBufferTimeArr.removeAll()
     }
     
     private var bufferTimer:NSTimer!
     
-    private var prevTime:UInt64?
-    private var nowTime:UInt64!
-    private var prevBufferTime:Float?
-    private var nowBufferTime:Float!
+    private var prevTimeArr:[UInt64] = []
+    private var prevBufferTimeArr:[Float] = []
+    private var isBuffering:Bool = false
+    
+//    private var prevTime:UInt64?
+//    private var nowTime:UInt64!
+//    private var prevBufferTime:Float?
+//    private var nowBufferTime:Float!
     
     //加载进度
     private func availableDuration()->Float{
