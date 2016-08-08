@@ -9,6 +9,7 @@
 import UIKit
 import MediaPlayer
 import AVFoundation
+import CoreLibrary
 
 class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAssetResourceLoaderDelegate
 
@@ -532,7 +533,7 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
             let needDelay = Float(nowTime - prevTime)/1000000000
             downloadRate = (nowBufferTime - prevBufferTime) / durationTime * Float(totalFileSize) / needDelay //文件大小
             
-            if downloadRate.isNaN{
+            if downloadRate < 0 || downloadRate.isNaN{
                 downloadRate = 0.0
             }
             isBuffering = false

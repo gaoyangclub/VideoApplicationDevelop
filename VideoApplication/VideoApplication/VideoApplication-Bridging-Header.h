@@ -6,7 +6,7 @@
 #define PullRefreshScrollerTest_BridgeHeader_h
 
 //#include "VMediaPlayer.h"
-#include "orglibs.h"
+//#include "orglibs.h"
 #include "ZXVideoView.h"
 
 //#include "PlayerView.h"

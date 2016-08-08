@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "494F22A7030CB760A4B22404C7A115B99C99D899",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "67F0CDA656D1DA9DB1359C0BC68A3B40713AF387" : 0,
+    "494F22A7030CB760A4B22404C7A115B99C99D899" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C797708A-16F1-4758-94EB-84B23F62DBAC",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "67F0CDA656D1DA9DB1359C0BC68A3B40713AF387" : "CoreLibraryDevelop\/",
+    "494F22A7030CB760A4B22404C7A115B99C99D899" : "VideoApplicationDevelop"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "VideoApplication",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "VideoApplication\/VideoApplication.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/gaoyangclub\/VideoApplicationDevelop.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "494F22A7030CB760A4B22404C7A115B99C99D899"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/gaoyangclub\/CoreLibraryDevelop.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "67F0CDA656D1DA9DB1359C0BC68A3B40713AF387"
+    }
+  ]
+}

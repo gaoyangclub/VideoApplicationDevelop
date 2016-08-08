@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLibrary
 
 class VideoView: ZXVideoView {
 
@@ -80,7 +81,7 @@ class VideoView: ZXVideoView {
     
     private func createNormalButton(url:String)->UIButton{
         let btn = UIButton()
-        BatchLoaderUtil.loadFile(url, callBack: { (image, params) -> Void in
+        BatchLoaderForSwift.loadFile(url, callBack: { (image) -> Void in
             btn.setImage(image, forState: UIControlState.Normal)
         })
 //        btn.addTarget(self, action:Selector(action), forControlEvents: UIControlEvents.TouchUpInside)
@@ -279,7 +280,7 @@ class VideoView: ZXVideoView {
         progressView.continuous = true
         //        progressView.addTarget(self, action: <#Selector#>, forControlEvents: UIControlEvents.ValueChanged)
         
-        BatchLoaderUtil.loadFile("kr-video-player-point", callBack: { (image, params) -> Void in
+        BatchLoaderForSwift.loadFile("kr-video-player-point", callBack: { (image) -> Void in
             progressView.setThumbImage(image, forState: UIControlState.Normal)
         })
         return progressView
