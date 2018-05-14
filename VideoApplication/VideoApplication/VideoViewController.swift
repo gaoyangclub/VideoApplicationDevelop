@@ -101,8 +101,8 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
         UIDevice.currentDevice().setValue(UIInterfaceOrientation.LandscapeLeft.rawValue, forKey: "orientation")
         let boundsHeight = UIScreen.mainScreen().bounds.height
         videoView.snp_removeConstraints()
-        videoView.snp_makeConstraints { (make) -> Void in
-            make.left.right.top.equalTo(self.view)
+        videoView.snp_makeConstraints { [weak self](make) -> Void in
+            make.left.right.top.equalTo(self!.view)
             make.height.equalTo(boundsHeight)
         }
     }
@@ -113,8 +113,8 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
         showZoomBtn()
         UIDevice.currentDevice().setValue(UIInterfaceOrientation.Portrait.rawValue, forKey: "orientation")
         videoView.snp_removeConstraints()
-        videoView.snp_makeConstraints { (make) -> Void in
-            make.left.right.top.equalTo(self.view)
+        videoView.snp_makeConstraints { [weak self](make) -> Void in
+            make.left.right.top.equalTo(self!.view)
             make.height.equalTo(280)
         }
     }
@@ -182,8 +182,8 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
         // add event handler, for this example, it is `volumeChange:` method
         
 //        videoView.frame = CGRectMake(0, 0, self.view.frame.width, 200)
-        videoView.snp_makeConstraints { (make) -> Void in
-            make.left.right.top.equalTo(self.view)
+        videoView.snp_makeConstraints { [weak self](make) -> Void in
+            make.left.right.top.equalTo(self!.view)
             make.height.equalTo(280)
         }
         
@@ -449,16 +449,16 @@ class VideoViewController: UIViewController,NSURLConnectionDataDelegate {//AVAss
     
     func videoOperateHide(){
         invalidateOperateTimer()
-        UIView.animateWithDuration(1, animations: { () -> Void in
-            self.videoView.operateView.alpha = 0 //隐藏
+        UIView.animateWithDuration(1, animations: { [weak self]() -> Void in
+            self!.videoView.operateView.alpha = 0 //隐藏
         })
         self.videoView.showCenterAreaToSide()
     }
     
     func videoOperateShow(){
         startOperateTimer()
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.videoView.operateView.alpha = 1 //隐藏
+        UIView.animateWithDuration(0.5, animations: { [weak self]() -> Void in
+            self!.videoView.operateView.alpha = 1 //隐藏
         })
         self.videoView.showCenterAreaToBase()
     }

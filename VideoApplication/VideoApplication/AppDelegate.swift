@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.All
 //        drawerController.centerHiddenInteractionMode = MMDrawerOpenCenterInteractionMode.None
         
-        self.window!.rootViewController = createNormalTabBar()//drawerController
+        self.window!.rootViewController = VideoViewController()//createNormalTabBar()//drawerController
         
         return true
     }

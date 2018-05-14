@@ -21,38 +21,38 @@ class VideoView: ZXVideoView {
 
     lazy var zoomInBtn:UIButton = {
         var btn = self.createNormalButton("VKVideoPlayer_zoom_in")
-        btn.snp_makeConstraints(closure: { (make) -> Void in
+        btn.snp_makeConstraints(closure: { [weak self](make) -> Void in
             make.width.height.equalTo(24)
-            make.right.equalTo(self.videoBottomArea).offset(-10)
-            make.centerY.equalTo(self.videoBottomArea)
+            make.right.equalTo(self!.videoBottomArea).offset(-10)
+            make.centerY.equalTo(self!.videoBottomArea)
         })
         return btn
         }()
     
     lazy var zoomOutBtn:UIButton = {
         var btn = self.createNormalButton("VKVideoPlayer_zoom_out")
-        btn.snp_makeConstraints(closure: { (make) -> Void in
+        btn.snp_makeConstraints(closure: { [weak self](make) -> Void in
             make.width.height.equalTo(24)
-            make.center.equalTo(self.zoomInBtn)
+            make.center.equalTo(self!.zoomInBtn)
         })
         return btn
         }()
     
     lazy var playBtn:UIButton = {
         var btn = self.createNormalButton("VKVideoPlayer_play")
-        btn.snp_makeConstraints(closure: { (make) -> Void in
+        btn.snp_makeConstraints(closure: { [weak self](make) -> Void in
             make.width.height.equalTo(24)
-            make.left.equalTo(self.videoBottomArea).offset(10)
-            make.centerY.equalTo(self.videoBottomArea)
+            make.left.equalTo(self!.videoBottomArea).offset(10)
+            make.centerY.equalTo(self!.videoBottomArea)
         })
         return btn
         }()
     
     lazy var pauseBtn:UIButton = {
         var btn = self.createNormalButton("VKVideoPlayer_pause")
-        btn.snp_makeConstraints(closure: { (make) -> Void in
+        btn.snp_makeConstraints(closure: { [weak self](make) -> Void in
             make.width.height.equalTo(24)
-            make.center.equalTo(self.playBtn)
+            make.center.equalTo(self!.playBtn)
         })
         return btn
         }()
@@ -60,10 +60,10 @@ class VideoView: ZXVideoView {
     lazy var leftLabel:UILabel = {
         var label:UILabel = UICreaterUtils.createLabel(12, UIColor.whiteColor(), "00:00", true, self.videoBottomArea)
         label.textAlignment = NSTextAlignment.Center
-        label.snp_makeConstraints(closure: { (make) -> Void in
-            make.left.equalTo(self.playBtn.snp_right).offset(5)
+        label.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.left.equalTo(self!.playBtn.snp_right).offset(5)
             make.width.equalTo(50)
-            make.centerY.equalTo(self.videoBottomArea)
+            make.centerY.equalTo(self!.videoBottomArea)
         })
         return label
         }()
@@ -71,17 +71,17 @@ class VideoView: ZXVideoView {
     lazy var rightLabel:UILabel = {
         var label:UILabel = UICreaterUtils.createLabel(12, UIColor.whiteColor(), "00:00", true, self.videoBottomArea)
         label.textAlignment = NSTextAlignment.Center
-        label.snp_makeConstraints(closure: { (make) -> Void in
-            make.right.equalTo(self.zoomInBtn.snp_left).offset(-5)
+        label.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.right.equalTo(self!.zoomInBtn.snp_left).offset(-5)
             make.width.equalTo(50)
-            make.centerY.equalTo(self.videoBottomArea)
+            make.centerY.equalTo(self!.videoBottomArea)
         })
         return label
         }()
     
     private func createNormalButton(url:String)->UIButton{
         let btn = UIButton()
-        BatchLoaderForSwift.loadFile(url, callBack: { (image) -> Void in
+        BatchLoaderForSwift.loadFile(url, callBack: { [weak self](image) -> Void in
             btn.setImage(image, forState: UIControlState.Normal)
         })
 //        btn.addTarget(self, action:Selector(action), forControlEvents: UIControlEvents.TouchUpInside)
@@ -93,8 +93,8 @@ class VideoView: ZXVideoView {
         var back:UIView = UIView()
         back.backgroundColor = UIColor.clearColor()
         self.addSubview(back)
-        back.snp_makeConstraints(closure: { (make) -> Void in
-            make.left.right.top.bottom.equalTo(self)
+        back.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.left.right.top.bottom.equalTo(self!)
         })
         return back
         }()
@@ -103,27 +103,27 @@ class VideoView: ZXVideoView {
         var back:UIView = UIView()
 //        back.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
         self.addSubview(back)
-        back.snp_makeConstraints(closure: { (make) -> Void in
-            make.width.equalTo(self)
-            make.top.equalTo(self.videoTopArea.snp_bottom)
-            make.bottom.equalTo(self.videoBottomArea.snp_top)
+        back.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.width.equalTo(self!)
+            make.top.equalTo(self!.videoTopArea.snp_bottom)
+            make.bottom.equalTo(self!.videoBottomArea.snp_top)
         })
         return back
     }()
     
     func showCenterAreaToSide(){
         videoCenterArea.snp_removeConstraints()
-        videoCenterArea.snp_makeConstraints { (make) -> Void in
-            make.left.right.equalTo(self)
-            make.top.bottom.equalTo(self)
+        videoCenterArea.snp_makeConstraints { [weak self](make) -> Void in
+            make.left.right.equalTo(self!)
+            make.top.bottom.equalTo(self!)
         }
     }
     func showCenterAreaToBase(){
         videoCenterArea.snp_removeConstraints()
-        videoCenterArea.snp_updateConstraints { (make) -> Void in
-            make.left.right.equalTo(self)
-            make.top.equalTo(self.videoTopArea.snp_bottom)
-            make.bottom.equalTo(self.videoBottomArea.snp_top)
+        videoCenterArea.snp_updateConstraints { [weak self](make) -> Void in
+            make.left.right.equalTo(self!)
+            make.top.equalTo(self!.videoTopArea.snp_bottom)
+            make.bottom.equalTo(self!.videoBottomArea.snp_top)
         }
     }
     
@@ -131,9 +131,9 @@ class VideoView: ZXVideoView {
         var back:UIView = UIView()
         back.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
         self.operateView.addSubview(back)
-        back.snp_makeConstraints(closure: { (make) -> Void in
-            make.width.top.equalTo(self.operateView)
-            make.height.equalTo(self.operateView).dividedBy(7)
+        back.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.width.top.equalTo(self!.operateView)
+            make.height.equalTo(self!.operateView).dividedBy(7)
         })
         return back
     }()
@@ -142,9 +142,9 @@ class VideoView: ZXVideoView {
         var back:UIView = UIView()
         back.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
         self.operateView.addSubview(back)
-        back.snp_makeConstraints(closure: { (make) -> Void in
-            make.width.bottom.equalTo(self.operateView)
-            make.height.equalTo(self.operateView).dividedBy(7)
+        back.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.width.bottom.equalTo(self!.operateView)
+            make.height.equalTo(self!.operateView).dividedBy(7)
         })
         return back
         }()
@@ -155,10 +155,10 @@ class VideoView: ZXVideoView {
         back.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
         self.addSubview(back)
         back.layer.cornerRadius = 5
-        back.snp_makeConstraints(closure: { (make) -> Void in
+        back.snp_makeConstraints(closure: { [weak self](make) -> Void in
 //            make.width.height.greaterThanOrEqualTo(self).dividedBy(5)
             make.width.height.greaterThanOrEqualTo(80)
-            make.center.equalTo(self)
+            make.center.equalTo(self!)
         })
         return back
     }()
@@ -171,8 +171,8 @@ class VideoView: ZXVideoView {
         
 //        activityView.hidesWhenStopped = true //停止后自动隐藏
         //        activityView.stopAnimating()//停止指示器
-        activityView.snp_makeConstraints(closure: { (make) -> Void in
-            make.left.right.top.bottom.equalTo(self.loadingArea)
+        activityView.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.left.right.top.bottom.equalTo(self!.loadingArea)
         })
         return activityView
     }()
@@ -194,9 +194,9 @@ class VideoView: ZXVideoView {
     lazy var downloadLabel:UILabel = {
         var label:UILabel = UICreaterUtils.createLabel(12, UIColor.whiteColor(), "0b/s", true, self.operateView)
 //        label.textAlignment = NSTextAlignment.Center
-        label.snp_makeConstraints(closure: { (make) -> Void in
-            make.left.equalTo(self.operateView).offset(50)
-            make.bottom.equalTo(self.videoBottomArea.snp_top).offset(-10)
+        label.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.left.equalTo(self!.operateView).offset(50)
+            make.bottom.equalTo(self!.videoBottomArea.snp_top).offset(-10)
         })
         return label
     }()
@@ -207,11 +207,11 @@ class VideoView: ZXVideoView {
         back.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
         self.addSubview(back)
         back.layer.cornerRadius = 5
-        back.snp_makeConstraints(closure: { (make) -> Void in
-            make.width.height.greaterThanOrEqualTo(self).dividedBy(3)
+        back.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.width.height.greaterThanOrEqualTo(self!).dividedBy(3)
             make.width.greaterThanOrEqualTo(140)
             make.height.greaterThanOrEqualTo(80)
-            make.center.equalTo(self)
+            make.center.equalTo(self!)
         })
         return back
         }()
@@ -226,10 +226,10 @@ class VideoView: ZXVideoView {
 //        label.numberOfLines = 1
 //        label.baselineAdjustment = UIBaselineAdjustment.AlignCenters
 //        label.backgroundColor = UIColor.brownColor()
-        label.snp_makeConstraints(closure: { (make) -> Void in
+        label.snp_makeConstraints(closure: { [weak self](make) -> Void in
 //            make.height.equalTo(self.centerTipsArea)
 //            make.width.equalTo(self.centerTipsArea).offset(-10)
-            make.center.equalTo(self.centerTipsArea)
+            make.center.equalTo(self!.centerTipsArea)
 //            make.baseline.equalTo(self.centerTipsArea)
 //            label.adjustsFontSizeToFitWidth = true
         })
@@ -240,15 +240,15 @@ class VideoView: ZXVideoView {
         let tempView:UIView = UIView()
         self.centerTipsArea.addSubview(tempView)
 //        tempView.backgroundColor = UIColor.brownColor()
-        tempView.snp_makeConstraints(closure: { (make) -> Void in
-            make.left.right.equalTo(self.centerTipsArea)
-            make.top.equalTo(self.centerTimeLabel.snp_bottom)
-            make.bottom.equalTo(self.centerProgressView.snp_top)
+        tempView.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.left.right.equalTo(self!.centerTipsArea)
+            make.top.equalTo(self!.centerTimeLabel.snp_bottom)
+            make.bottom.equalTo(self!.centerProgressView.snp_top)
         })
         var label:UILabel = UICreaterUtils.createLabel(14, UIColor.lightGrayColor(), "00:00:00/00:00:00", true, tempView)
         label.textAlignment = NSTextAlignment.Center
 //        label.adjustsFontSizeToFitWidth = true
-        label.snp_makeConstraints(closure: { (make) -> Void in
+        label.snp_makeConstraints(closure: { [weak self](make) -> Void in
 //            make.width.equalTo(tempView).offset(-10)
             make.center.equalTo(tempView)
         })
@@ -263,9 +263,9 @@ class VideoView: ZXVideoView {
         pView.trackTintColor = UICreaterUtils.colorBlack
         pView.progressTintColor = UIColor.orangeColor()
         //        pView.setProgress(0, animated: false)
-        pView.snp_makeConstraints(closure: { (make) -> Void in
+        pView.snp_makeConstraints(closure: { [weak self](make) -> Void in
             make.height.equalTo(2)
-            make.left.right.bottom.centerX.equalTo(self.centerTipsArea)
+            make.left.right.bottom.centerX.equalTo(self!.centerTipsArea)
         })
         return pView
         }()
@@ -280,7 +280,7 @@ class VideoView: ZXVideoView {
         progressView.continuous = true
         //        progressView.addTarget(self, action: <#Selector#>, forControlEvents: UIControlEvents.ValueChanged)
         
-        BatchLoaderForSwift.loadFile("kr-video-player-point", callBack: { (image) -> Void in
+        BatchLoaderForSwift.loadFile("kr-video-player-point", callBack: { [weak self](image) -> Void in
             progressView.setThumbImage(image, forState: UIControlState.Normal)
         })
         return progressView
@@ -305,20 +305,20 @@ class VideoView: ZXVideoView {
     
     //进度条布局
     func layoutProgressView(){
-        backLineView.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(self.leftLabel.snp_right).offset(10)
-            make.right.equalTo(self.rightLabel.snp_left).offset(-10)
-            make.centerY.equalTo(self.videoBottomArea)
+        backLineView.snp_makeConstraints { [weak self](make) -> Void in
+            make.left.equalTo(self!.leftLabel.snp_right).offset(10)
+            make.right.equalTo(self!.rightLabel.snp_left).offset(-10)
+            make.centerY.equalTo(self!.videoBottomArea)
             make.height.equalTo(2)
         }
         
-        bufferView.snp_makeConstraints(closure: { (make) -> Void in //[unown self]
-            make.left.right.height.centerY.equalTo(self.backLineView)
+        bufferView.snp_makeConstraints(closure: { [weak self](make) -> Void in //[unown self]
+            make.left.right.height.centerY.equalTo(self!.backLineView)
         })
         
-        progressSld.snp_makeConstraints(closure: { (make) -> Void in
-            make.left.right.equalTo(self.backLineView)
-            make.centerY.equalTo(self.backLineView).offset(-0.6)
+        progressSld.snp_makeConstraints(closure: { [weak self](make) -> Void in
+            make.left.right.equalTo(self!.backLineView)
+            make.centerY.equalTo(self!.backLineView).offset(-0.6)
         })
     }
     
